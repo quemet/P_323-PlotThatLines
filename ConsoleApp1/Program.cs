@@ -47,9 +47,9 @@ namespace ConsoleApp1
 
         public static void Main(string[] args)
         {
-            // List<Monnaie> bitcoin = readPath("../../../bitcoin.csv", "bitcoin");
-            // List<Monnaie> etherum = readPath("../../../ethereum.csv", "etheurem");
-            // List<Monnaie> solona = readPath("../../../solona.csv", "solona");
+            List<Monnaie> bitcoin = readPath("../../../bitcoin.csv", "bitcoin");
+            List<Monnaie> etherum = readPath("../../../ethereum.csv", "etheurem");
+            List<Monnaie> solona = readPath("../../../solona.csv", "solona");
         }
     }
 }
