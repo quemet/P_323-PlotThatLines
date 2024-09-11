@@ -1,156 +1,110 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScottPlot.WinForms;
 
 namespace P_323_PlotThatLines
 {
+    interface IForm
+    {
+        ScottPlot.Plottables.Signal DrawGraph(List<float> close_monnaie, double date, string currency);
+    }
+
     public partial class Form1 : Form
     {
-
         readonly FormsPlot FormsPlot1 = new FormsPlot() { Dock = DockStyle.Fill };
-        List<Button> buttons = new List<Button>();
-        List<Monnaie> bitcoin = new List<Monnaie>();
-        List<Monnaie> ethereum = new List<Monnaie>();
-        List<Monnaie> solana = new List<Monnaie>();
-        List<float> close_bitcoin = new List<float>();
-        List<float> close_ethereum = new List<float>();
-        List <float> close_solana = new List<float>();
-        List<string> texts = new List<string> { "1W", "1M", "6M", "1Y", "2Y", "MAX" };
-        const int ONE_WEEK = 7;
-        const int ONE_MONTH = 31;
-        const int SIX_MONTH = 183;
-        const int ONE_YEAR = 356;
-        const int TWO_YEAR = 712;
+
+        static List<Monnaie> bitcoin = readPath("../../bitcoin.csv", "bitcoin");
+        static List<Monnaie> ethereum = readPath("../../ethereum.csv", "ethereum");
+        static List<Monnaie> solana = readPath("../../solana.csv", "solana");
+
+        List<float> close_bitcoin = bitcoin.Select(b => b._close).ToList();
+        List<float> close_ethereum = ethereum.Select(e => e._close).ToList();
+        List <float> close_solana = solana.Select(s => s._close).ToList();
+
+        DateTimePicker startPicker = new DateTimePicker();
+        DateTimePicker endPicker = new DateTimePicker();
+
+        Button b_submit = new Button();
 
         public ScottPlot.Plottables.Signal DrawGraph(List<float> close_monnaie, double date, string currency)
         {
             var graph = FormsPlot1.Plot.Add.Signal(close_monnaie);
             graph.Data.XOffset = date;
             graph.Data.Period = 1.0;
-            graph.Label = currency;
+            graph.LegendText = currency;
             return graph;
         }
 
-        public void InitiliazeButton(List<string> texts)
+        public void InitiliazeDateTimePicker()
         {
-            for (int i = 0; i < texts.Count; i++)
+            startPicker.Location = new Point(50, 400);
+            startPicker.Value = bitcoin[0]._date;
+            startPicker.MinDate = bitcoin[0]._date;
+            startPicker.MaxDate = bitcoin[bitcoin.Count - 2]._date;
+            startPicker.ValueChanged += StartPicker_ValueChanged;
+
+            endPicker.Location = new Point(350, 400);
+            endPicker.Value = startPicker.Value.AddDays(1);
+            endPicker.MinDate = startPicker.Value.AddDays(1);
+            endPicker.MaxDate = bitcoin[bitcoin.Count - 1]._date;
+            endPicker.ValueChanged += EndPicker_ValueChanged;
+
+            b_submit.Location = new Point(650, 400);
+            b_submit.Text = "Submit";
+            b_submit.Click += ChangeDate;
+
+            this.Controls.Add(startPicker);
+            this.Controls.Add(endPicker);
+            this.Controls.Add(b_submit);
+        }
+
+        private void EndPicker_ValueChanged(object sender, EventArgs e)
+        {
+            if(endPicker.Value <= startPicker.Value)
             {
-                buttons.Add(CreateButton(75, 25, 80 + i * 110, 400, texts[i]));
+                endPicker.Value = startPicker.Value.AddDays(1);
+                endPicker.MinDate = startPicker.Value.AddDays(1);
             }
         }
 
-        public List<float> InitiliazeCloseListWithTime(List<Monnaie> data, int time)
+        private void StartPicker_ValueChanged(object sender, EventArgs e)
         {
-            List<float> floats = new List<float>();
-            for(int i=data.Count - 1; i > data.Count - time; i--)
-            {
-                floats.Add(data[i]._close);
-            }
-            return floats;
+            endPicker.Value = startPicker.Value.AddDays(1);
         }
 
-        public List<float> InitiliazeCloseList(List<Monnaie> data)
+        private void ChangeDate(object sender, EventArgs e)
         {
-            List<float> monnaies = new List<float>();
+            DateTime start_date = startPicker.Value;
+            DateTime end_date = endPicker.Value;
 
-            for (int i = 0; i < data.Count; i++)
-            {
-                monnaies.Add(data[i]._close);
-            }
-
-            return monnaies;
-        }
-
-        public Button CreateButton(int width, int height, int x, int y, string text)
-        {
-            Button b = new Button { Size = new Size(width, height), Location = new Point(x, y), Text = text, BackColor = Color.LightGray };
-            b.Click += B_Click;
-            Controls.Add(b);
-            return b;
-        }
-
-        private void B_Click(object sender, EventArgs e)
-        {
-            Button b = sender as Button;
-            b.BackColor = Color.LightBlue;
+            List<Monnaie> bit_opens = bitcoin.Where(b => b._date >= start_date && b._date < end_date).ToList();
+            List<Monnaie> eth_opens = ethereum.Where(eth => eth._date >= start_date && eth._date < end_date).ToList();
+            List<Monnaie> sln_opens = solana.Where(s => s._date >= start_date && s._date < end_date).ToList();
 
             FormsPlot1.Plot.Clear();
-            switch (b.Text)
+
+            DrawGraph(bit_opens.Select(b => b._close).ToList(), bit_opens[0]._date.ToOADate(), "bitcoin");
+            if(eth_opens.Count > 0)
             {
-                case "1W":
-                    List<float> bits_oneweek = InitiliazeCloseListWithTime(bitcoin, ONE_WEEK);
-                    List<float> eths_oneweek = InitiliazeCloseListWithTime(ethereum, ONE_WEEK);
-                    //List<float> sols_oneweek = InitiliazeCloseListWithTime(solana, ONE_WEEK);
-
-                    DrawGraph(bits_oneweek, bitcoin[bitcoin.Count - ONE_WEEK]._date.ToOADate(), "bitcoin");
-                    DrawGraph(eths_oneweek, ethereum[ethereum.Count - ONE_WEEK]._date.ToOADate(), "ethereum");
-                    //DrawGraph(sols_oneweek, solana[solana.Count - ONE_WEEK]._date.ToOADate(), "solana");
-
-                    FormsPlot1.Plot.Axes.DateTimeTicksBottom();
-                    FormsPlot1.Refresh();
-                    break;
-                case "1M":
-                    List<float> bits_onemonth = InitiliazeCloseListWithTime(bitcoin, ONE_MONTH);
-                    List<float> eths_onemonth = InitiliazeCloseListWithTime(ethereum, ONE_MONTH);
-                    //List<float> sols_onemonth = InitiliazeCloseListWithTime(solana, ONE_MONTH);
-
-                    DrawGraph(bits_onemonth, bitcoin[bitcoin.Count - ONE_MONTH]._date.ToOADate(), "bitcoin");
-                    DrawGraph(eths_onemonth, ethereum[ethereum.Count - ONE_MONTH]._date.ToOADate(), "ethereum");
-                    //DrawGraph(sols_onemonth, solana[solana.Count - ONE_MONTH]._date.ToOADate(), "solana");
-
-                    FormsPlot1.Plot.Axes.DateTimeTicksBottom();
-                    FormsPlot1.Refresh();
-                    break;
-                case "6M":
-                    List<float> bits_sixmonth = InitiliazeCloseListWithTime(bitcoin, SIX_MONTH);
-                    var graph_sixmonth = FormsPlot1.Plot.Add.Signal(bits_sixmonth);
-                    graph_sixmonth.Data.XOffset = bitcoin[bitcoin.Count - SIX_MONTH]._date.ToOADate();
-                    graph_sixmonth.Data.Period = 1.0;
-                    FormsPlot1.Plot.Axes.DateTimeTicksBottom();
-                    FormsPlot1.Refresh();
-                    break;
-                case "1Y":
-                    List<float> bits_oneyear = InitiliazeCloseListWithTime(bitcoin, ONE_YEAR);
-                    List<float> eths_oneyear = InitiliazeCloseListWithTime(ethereum, ONE_YEAR);
-
-                    DrawGraph(bits_oneyear, bitcoin[bitcoin.Count - ONE_YEAR]._date.ToOADate(), "bitcoin");
-
-                    FormsPlot1.Plot.Axes.DateTimeTicksBottom();
-                    FormsPlot1.Refresh();
-                    break;
-                case "2Y":
-                    List<float> bits_twoyear = InitiliazeCloseListWithTime(bitcoin, TWO_YEAR);
-                    var graph_twoyear = FormsPlot1.Plot.Add.Signal(bits_twoyear);
-                    graph_twoyear.Data.XOffset = bitcoin[bitcoin.Count - TWO_YEAR]._date.ToOADate();
-                    graph_twoyear.Data.Period = 1.0;
-                    FormsPlot1.Plot.Axes.DateTimeTicksBottom();
-                    FormsPlot1.Refresh();
-                    break;
-                case "MAX":
-                    List<float> bits = InitiliazeCloseList(bitcoin);
-                    var graph = FormsPlot1.Plot.Add.Signal(bits);
-                    graph.Data.XOffset = bitcoin[0]._date.ToOADate();
-                    graph.Data.Period = 1.0;
-                    FormsPlot1.Plot.Axes.DateTimeTicksBottom();
-                    FormsPlot1.Refresh();
-                    break;
+                DrawGraph(eth_opens.Select(eth => eth._close).ToList(), eth_opens[0]._date.ToOADate(), "ethereum");
             }
 
-            foreach(Button button in buttons)
+            if(sln_opens.Count > 0)
             {
-                if(button.Text != b.Text)
-                {
-                    button.BackColor = Color.LightGray;
-                }
+                DrawGraph(sln_opens.Select(s => s._close).ToList(), sln_opens[0]._date.ToOADate(), "solana");
             }
+
+            FormsPlot1.Plot.Axes.DateTimeTicksBottom();
+
+            FormsPlot1.Plot.XLabel("Date");
+            FormsPlot1.Plot.YLabel("Prix en dollars américains");
+
+            FormsPlot1.Refresh();
         }
 
         public static List<Monnaie> readPath(string path, string monnaie)
@@ -175,15 +129,7 @@ namespace P_323_PlotThatLines
 
             panel1.Controls.Add(FormsPlot1);
 
-            bitcoin = readPath("../../bitcoin.csv", "bitcoin");
-            ethereum = readPath("../../ethereum.csv", "ethereum");
-            solana = readPath("../../solana.csv", "solana");
-
-            close_bitcoin = InitiliazeCloseList(bitcoin);
-            close_ethereum = InitiliazeCloseList(ethereum);
-            close_solana = InitiliazeCloseList(solana);
-
-            InitiliazeButton(texts);
+            InitiliazeDateTimePicker();
 
             DrawGraph(close_bitcoin, bitcoin[0]._date.ToOADate(), "bitcoin");
             DrawGraph(close_ethereum, ethereum[0]._date.ToOADate(), "ethereum");
@@ -191,19 +137,16 @@ namespace P_323_PlotThatLines
 
             FormsPlot1.Plot.Axes.DateTimeTicksBottom();
 
+            FormsPlot1.Plot.XLabel("Date");
+            FormsPlot1.Plot.YLabel("Prix en dollars américains");
+
             FormsPlot1.Refresh();
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 
     public class Monnaie
     {
         public DateTime _date { get; set; }
-        public long _dateLong { get; set; }
         public float _open { get; set; }
         public float _high { get; set; }
         public float _low { get; set; }
@@ -223,7 +166,6 @@ namespace P_323_PlotThatLines
             this._volume = volume;
             this._currency = currency;
             this._monnaie = monnaie;
-            this._dateLong = long.Parse(this._date.ToString("yyyyMMdd"));
         }
     }
 }
