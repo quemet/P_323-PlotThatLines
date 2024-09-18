@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_323-PlotThatLines", "P_323-PlotThatLines.csproj", "{7DD9B628-579B-4948-85E0-11C65A2D38B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P_323-PlotThatLinesTests", "..\P_323-PlotThatLinesTests\P_323-PlotThatLinesTests.csproj", "{95E5894A-5081-4369-AD8B-E7B8AC1B1D03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7DD9B628-579B-4948-85E0-11C65A2D38B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DD9B628-579B-4948-85E0-11C65A2D38B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DD9B628-579B-4948-85E0-11C65A2D38B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95E5894A-5081-4369-AD8B-E7B8AC1B1D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E5894A-5081-4369-AD8B-E7B8AC1B1D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E5894A-5081-4369-AD8B-E7B8AC1B1D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E5894A-5081-4369-AD8B-E7B8AC1B1D03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
