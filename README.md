@@ -6,7 +6,7 @@ Plot that lines !
 
 ## 2. Description
 
-Le but de ce projet est d'utiliser les connaissances acquises dans le moudle 323, afficher sur un graphique 3 différentes monnaies.
+Le but de ce projet est d'utiliser les connaissances acquises dans le module 323, afficher sur un graphique 3 différentes monnaies.
 
 ## 3. Table des matières
 
@@ -88,4 +88,4 @@ Je n'ai pas utilisé l'intelligence artificielle durant ce projet, à part pour 
 
 ## 12. Licence
 
-Ce projet est sous licence [MIT](https://github.com/quemet/P_323-PlotThatLines/blob/main/LICENCE).
+Ce projet est sous licence [MIT](https://github.com/quemet/P_323-PlotThatLines/blob/main/LICENSE.md).
