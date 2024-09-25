@@ -1,4 +1,4 @@
-﻿using P_323_PlotThatLines;
+﻿using P_FUN_PlotThatLines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
