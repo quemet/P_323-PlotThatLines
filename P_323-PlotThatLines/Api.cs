@@ -209,9 +209,19 @@ namespace P_323_PlotThatLines
 
             this.FormsPlot1 = FormsPlot1;
 
-            bitcoin = ReadPath("../../bitcoin.csv", "bitcoin");
-            ethereum = ReadPath("../../ethereum.csv", "ethereum");
-            solana = ReadPath("../../solana.csv", "solana");
+            string type = "";
+
+            using(StreamReader sr = new StreamReader(".env"))
+            {
+                string line = sr.ReadLine();
+                type = line.Split('=')[1];
+            }
+
+            string path = type == "Developement" ? "../../" : "./";
+
+            bitcoin = ReadPath(path + "bitcoin.csv", "bitcoin");
+            ethereum = ReadPath(path + "ethereum.csv", "ethereum");
+            solana = ReadPath(path + "solana.csv", "solana");
 
             close_bitcoin = bitcoin.Select(b => b._close).ToList();
             close_ethereum = ethereum.Select(e => e._close).ToList();
