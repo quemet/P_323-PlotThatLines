@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 
-namespace P_323_PlotThatLines.Tests
+namespace P_FUN_PlotThatLines.Tests
 {
     [TestClass()]
     public class ApiTests

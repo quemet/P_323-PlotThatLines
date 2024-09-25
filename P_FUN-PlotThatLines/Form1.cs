@@ -1,19 +1,19 @@
-﻿using System.IO;
+using System.IO;
 using System.Windows.Forms;
 using ScottPlot.WinForms;
 using System.Collections.Generic;
 
-namespace P_323_PlotThatLines
-{   
+namespace P_FUN_PlotThatLines
+{
     public partial class Form1 : Form
     {
-        readonly FormsPlot FormsPlot1 = new FormsPlot() { Dock = DockStyle.Fill };
-
+		readonly FormsPlot FormsPlot1 = new FormsPlot() { Dock = DockStyle.Fill };
+		
         public Form1()
         {
             InitializeComponent();
-
-            bool isBitcoin = File.Exists("bitcoin.csv");
+			
+			bool isBitcoin = File.Exists("bitcoin.csv");
 
             if (isBitcoin)
             {
