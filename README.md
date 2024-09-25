@@ -88,4 +88,4 @@ Je n'ai pas utilisé l'intelligence artificielle durant ce projet, à part pour 
 
 ## 12. Licence
 
-Ce projet est sous licence [MIT]().
+Ce projet est sous licence [MIT](https://github.com/quemet/P_323-PlotThatLines/blob/main/LICENCE).
