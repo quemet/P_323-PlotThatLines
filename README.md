@@ -31,7 +31,7 @@ Vous avez besoin :
 
 ## 5. Installation
 
-- Si vous n'avez pas Visual Studio 2022, installez-le à cette [adresse](https://visualstudio.microsoft.com/fr/downloads/)
+- Si vous n'avez pas Visual Studio 2022, télécharger-le à cette [adresse](https://visualstudio.microsoft.com/fr/downloads/)
 - `git clone https://github.com/quemet/P_323-PlotThatLines.git`
 
 ## 6. Utilisation
