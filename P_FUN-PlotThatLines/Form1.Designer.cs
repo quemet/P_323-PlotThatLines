@@ -33,10 +33,10 @@
             // 
             // panel1
             // 
-            panel1.BackColor = System.Drawing.SystemColors.Desktop;
-            panel1.Location = new System.Drawing.Point(27, 1);
+            panel1.BackColor = SystemColors.Desktop;
+            panel1.Location = new Point(27, 1);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(739, 381);
+            panel1.Size = new Size(739, 381);
             panel1.TabIndex = 0;
             // 
             // Form1
@@ -49,6 +49,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
         }
 

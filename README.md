@@ -6,43 +6,50 @@ Plot that lines !
 
 ## 2. Description
 
-Le but de ce projet est d'utiliser les connaissances acquises dans le module 323, afficher sur un graphique 3 différentes monnaies.
+Le but de ce projet est d'utiliser les connaissances acquises dans le module 323 en affichant sur un graphique 3 différentes monnaies.
 
 ## 3. Table des matières
 
-- [Installation](#4-installation)
-- [Utilisation](#5-utilisation)
-- [Planification](#6-planification)
-- [Journal de travail](#7-journal-de-travail)
-- [Technologie Utilisé](#8-technologie-utilisé)
-- [Tests](#9-tests)
-- [IA](#10-ia)
-- [Auteur(s)](#11-auteurs)
-- [Licences](#12-licence)
+- [Requirements](#4-requierements)
+- [Installation](#5-installation)
+- [Utilisation](#6-utilisation)
+- [Planification](#7-planification)
+- [Journal de travail](#8-journal-de-travail)
+- [Technologie Utilisé](#9-technologie-utilisé)
+- [Tests](#10-tests)
+- [IA](#11-ia)
+- [Conclusion](#12-conclusion)
+- [Auteur(s)](#13-auteurs)
+- [Licences](#14-licence)
 
-## 4. Installation
+## 4. Requierements
+
+Vous avez besoin :
+
+- C# : 12
+- ScottPlot : 3
+
+## 5. Installation
 
 - Si vous n'avez pas Visual Studio 2022, installez-le à cette [adresse](https://visualstudio.microsoft.com/fr/downloads/)
 - `git clone https://github.com/quemet/P_323-PlotThatLines.git`
 
-## 5. Utilisation
+## 6. Utilisation
 
-- `cd P_323-PlotThatLines/P_323-PlotThatLines`
+- Aller dans le dossier **P_323-PlotThatLines**
+- Encore une fois, aller dans le dossier **P_323-PlotThatLines**
 - Double cliquer sur le fichier nommé **P_323-PlotThatLines.sln**
 - Cliquer sur l'icône de triangle vert pour exécuter le code
 
-## 6. Planification
+## 7. Planification
 
-Pour voir la planification, veuillez vous rendre dans le dossier racine de ce projet et ouvrez le fichier nommé **JNLTRAV-QueMetroz.xlsm**, puis allez dans l'onglet **Planification**
+Pour voir la planification, se rendre dans le dossier racine de ce projet et ouvrez le fichier nommé **JNLTRAV-QueMetroz.xlsm**, aller dans l'onglet **Planification**
 
-## 7. Journal de travail
+## 8. Journal de travail
 
-Pour voir le journal de travail, veuillez vous rendre dans le dossier racine de ce projet et ouvrez le fichier nommé **JNLTRAV-QueMetroz.xlsm**, puis allez dans l'onglet **Journal de Travail**
+Pour voir le journal de travail, se rendre dans le dossier racine de ce projet et ouvrez le fichier nommé **JNLTRAV-QueMetroz.xlsm**, aller dans l'onglet **Journal de Travail**
 
-<br>
-<br>
-
-## 8. Technologie Utilisé
+## 9. Technologie Utilisé
 
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white) : v12<br>
 ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) : v.0.30<br>
@@ -53,7 +60,7 @@ Pour voir le journal de travail, veuillez vous rendre dans le dossier racine de 
 ![Bitcoin](https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white)<br>
 ![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)
 
-## 9. Tests
+## 10. Tests
 
 ### Test Unitaire
 
@@ -78,14 +85,30 @@ Pour voir le journal de travail, veuillez vous rendre dans le dossier racine de 
 | Si on clique sur le bouton submit, alors le graphique doit avoir 3 courbes avec une légende.        | Success  |
 | Si on clique sur le bouton submit, alors l'application ne crache pas.                               | Success  |
 
-## 10. IA
+## 11. IA
 
 Je n'ai pas utilisé l'intelligence artificielle durant ce projet, à part pour la structure de mon fichier README.md où j'ai demandé à CHATGPT de me dire quelle est la structure de ce fichier de manière optimale.
 
-## 11. Auteur(s)
+## 12. Conclusion
+
+Mon projet reépond aux cahier des charges et utilisables avec la realease de mon [repo github](https://github.com/quemet/P_323-PlotThatLines).
+
+### Conclusion personelle
+
+Le projet m'a semblé assez facile au début mais au fur et à mesure du projet le prof rajoute des choses dans le projet.
+
+### Amélioration du projet
+
+Les pistes d'améliorations du projet :
+
+- Récupérer les données d'une API.
+- Demander le nombre de cryptomonnaie à l'utilisateur.
+- Demander quelle crypto le graphe doit être affiché.
+
+## 13. Auteur(s)
 
 **Auteur** : [Quentin Métroz](https://github.com/quemet)
 
-## 12. Licence
+## 14. Licence
 
 Ce projet est sous licence [MIT](https://github.com/quemet/P_323-PlotThatLines/blob/main/LICENSE.md).
