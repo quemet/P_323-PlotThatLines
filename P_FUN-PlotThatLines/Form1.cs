@@ -57,7 +57,7 @@ namespace P_FUN_PlotThatLines
 
             panel1.Controls.Add(FormsPlot1);
 
-            Api a = new Api(this, FormsPlot1);
+            FormPlotter a = new FormPlotter(this, FormsPlot1);
         }
 
         private void Form1_Load(object sender, EventArgs e)

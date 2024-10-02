@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace P_FUN_PlotThatLines
+﻿namespace P_FUN_PlotThatLines
 {
     public class Currency
     {
