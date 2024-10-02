@@ -91,7 +91,7 @@ Je n'ai pas utilisé l'intelligence artificielle durant ce projet, à part pour 
 
 ## 12. Conclusion
 
-Mon projet reépond aux cahier des charges et utilisables avec la realease de mon [repo github](https://github.com/quemet/P_323-PlotThatLines).
+Mon projet reépond aux cahier des charges et utilisables avec la realease de mon [repo github](https://github.com/quemet/P_323-PlotThatLines/releases/tag/1.0.0).
 
 ### Conclusion personelle
 
