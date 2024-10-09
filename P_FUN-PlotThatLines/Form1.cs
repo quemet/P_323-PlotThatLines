@@ -59,10 +59,5 @@ namespace P_FUN_PlotThatLines
 
             FormPlotter a = new FormPlotter(this, FormsPlot1);
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -49,7 +49,6 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "Form1";
             Text = "Form1";
-            Load += Form1_Load;
             ResumeLayout(false);
         }
 

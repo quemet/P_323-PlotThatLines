@@ -31,7 +31,7 @@ namespace P_FUN_PlotThatLines
         // a button to submit the new date
         Button b_submit = new Button();
 
-        public DefaultDataHandler InitializeObjectTest(DefaultDataHandler d)
+        public DefaultDataHandler InitializeObject(DefaultDataHandler d)
         {
             d.bitcoin = ReadPath("../../bitcoin.csv", "bitcoin");
             d.ethereum = ReadPath("../../ethereum.csv", "ethereum");

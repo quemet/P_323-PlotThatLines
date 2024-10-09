@@ -1,4 +1,6 @@
-﻿using ScottPlot.WinForms;
+﻿using ScottPlot;
+using ScottPlot.Plottables;
+using ScottPlot.WinForms;
 
 namespace P_FUN_PlotThatLines
 {
@@ -11,6 +13,8 @@ namespace P_FUN_PlotThatLines
         public readonly Form form1;
 
         internal static DefaultDataHandler DataHandler = new();
+
+        private ToolTip tooltip = new ToolTip();
 
         // a button to submit the new date
         Button b_submit = new Button();
@@ -126,6 +130,21 @@ namespace P_FUN_PlotThatLines
 
         }
 
+        int FindClosestIndex(double[] array, double value)
+        {
+            int index = Array.BinarySearch(array, value);
+            if (index >= 0)
+                return index;
+            index = ~index;
+            if (index == 0)
+                return 0;
+            if (index >= array.Length)
+                return array.Length - 1;
+            double prev = array[index - 1];
+            double next = array[index];
+            return (Math.Abs(value - prev) < Math.Abs(value - next)) ? index - 1 : index;
+        }
+
         /// <summary>
         /// Constructor for the application
         /// </summary>
@@ -161,10 +180,65 @@ namespace P_FUN_PlotThatLines
             DrawGraph(DataHandler.close_ethereum, DataHandler.ReturnCorrectFormatDate(DataHandler.ethereum, 0), "ethereum");
             DrawGraph(DataHandler.close_solana, DataHandler.ReturnCorrectFormatDate(DataHandler.solana, 0), "solana");
 
+            ScottPlot.Plottables.Crosshair crosshair = FormsPlot1.Plot.Add.Crosshair(0, 0);
+            crosshair.IsVisible = false;
+            crosshair.LineWidth = 1;
+
+            Action<string> crosshairInitialization = l =>
+            {
+                FormsPlot1.MouseMove += (sender, e) =>
+                {
+                    // Convertir la position de la souris en coordonnées de données
+                    var mousePixel = new Pixel(e.Location.X, e.Location.Y);
+                    var mouseCoords = FormsPlot1.Plot.GetCoordinates(mousePixel);
+
+                    // Rechercher le point le plus proche sur la courbe
+                    var nearestIndex = FindClosestIndex(DataHandler.bitcoin.Select(b => b._date.ToOADate()).ToArray(), mouseCoords.X);
+                    if (nearestIndex >= 0 && nearestIndex < DataHandler.close_bitcoin.Count)
+                    {
+                        double price = DataHandler.close_bitcoin[nearestIndex];
+                        DateTime date = DataHandler.bitcoin[nearestIndex]._date;
+
+                        crosshair.IsVisible = true;
+                        crosshair.Position = new Coordinates(mouseCoords.X, DataHandler.close_bitcoin[nearestIndex]);
+
+                        // Mettre à jour le ToolTip avec les informations correspondantes
+                        string info = $"{l}: Date: {date.ToShortDateString()}, Prix: {price}";
+                        tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                    }
+                    else
+                    {
+                        crosshair.IsVisible = false;
+                    }
+
+                    // Rafraîchir le graphique
+                    FormsPlot1.Refresh();
+                };
+            };
+
+            new List<string>() { "bitcoin", "ethereum", "solana" }.ForEach(s =>
+            {
+                crosshairInitialization(s);
+            });
+
             FormsPlot1.Plot.Axes.DateTimeTicksBottom();
 
             FormsPlot1.Plot.XLabel("Date");
             FormsPlot1.Plot.YLabel("Prix en dollars américains");
+
+            FormsPlot1.Plot.ShowLegend(Alignment.UpperCenter, ScottPlot.Orientation.Horizontal);
+
+            static string CustomFormatter(double position)
+            {
+                return $"{position}$";
+            }
+
+            ScottPlot.TickGenerators.NumericAutomatic myTickGenerator = new()
+            {
+                LabelFormatter = CustomFormatter
+            };
+
+            FormsPlot1.Plot.Axes.Left.TickGenerator = myTickGenerator;
 
             FormsPlot1.Refresh();
         }
