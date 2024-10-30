@@ -31,11 +31,11 @@ namespace P_FUN_PlotThatLines
         // a button to submit the new date
         Button b_submit = new Button();
 
-        public DefaultDataHandler InitializeObject(DefaultDataHandler d)
+        public DefaultDataHandler InitializeObject(DefaultDataHandler d, string path)
         {
-            d.bitcoin = ReadPath("../../bitcoin.csv", "bitcoin");
-            d.ethereum = ReadPath("../../ethereum.csv", "ethereum");
-            d.solana = ReadPath("../../solana.csv", "solana");
+            d.bitcoin = ReadPath(path + "bitcoin.csv", "bitcoin");
+            d.ethereum = ReadPath(path + "ethereum.csv", "ethereum");
+            d.solana = ReadPath(path + "solana.csv", "solana");
             d.close_bitcoin = bitcoin.Select(b => b._close).ToList();
             d.close_ethereum = ethereum.Select(e => e._close).ToList();
             d.close_solana = solana.Select(s => s._close).ToList();

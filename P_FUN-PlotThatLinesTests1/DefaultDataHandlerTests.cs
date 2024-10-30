@@ -16,7 +16,7 @@ namespace P_FUN_PlotThatLines.Tests
         [TestMethod()]
         public void RefreshDateTest()
         {
-            handler = handler.InitializeObjectTest(handler);
+            handler = handler.InitializeObject(handler, "../../../../P_FUN-PlotThatLines/");
 
             List<Currency> c = handler.RefreshDate(handler.bitcoin, handler.bitcoin.First()._date, handler.bitcoin[5]._date);
 
@@ -27,7 +27,7 @@ namespace P_FUN_PlotThatLines.Tests
         [TestMethod()]
         public void ChangeDateTest()
         {
-            handler = handler.InitializeObjectTest(handler);
+            handler = handler.InitializeObject(handler, "../../../../P_FUN-PlotThatLines/");
 
             handler.ChangeDate(new object(), new EventArgs());
         }
@@ -35,9 +35,9 @@ namespace P_FUN_PlotThatLines.Tests
         [TestMethod()]
         public void ReadPathTest()
         {
-            handler = handler.InitializeObjectTest(handler);
+            handler = handler.InitializeObject(handler, "../../../../P_FUN-PlotThatLines/");
 
-            List<Currency> c = handler.ReadPath("../../bitcoin.csv", "bitcoin");
+            List<Currency> c = handler.ReadPath("../../../../P_FUN-PlotThatLines/bitcoin.csv", "bitcoin");
 
             Assert.IsNotNull(c);
             Assert.AreNotEqual(0, c.Count);
@@ -47,7 +47,7 @@ namespace P_FUN_PlotThatLines.Tests
         [TestMethod()]
         public void ReturnCorrectFormatDateTest()
         {
-            handler = handler.InitializeObjectTest(handler);
+            handler = handler.InitializeObject(handler, "../../../../P_FUN-PlotThatLines/");
 
             double date = handler.ReturnCorrectFormatDate(handler.bitcoin, 0);
 

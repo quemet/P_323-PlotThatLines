@@ -1,6 +1,12 @@
-﻿using ScottPlot;
+﻿
+using ScottPlot;
+using ScottPlot.Colormaps;
 using ScottPlot.Plottables;
 using ScottPlot.WinForms;
+using System.Diagnostics;
+using System.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml.Linq;
 
 namespace P_FUN_PlotThatLines
 {
@@ -192,34 +198,130 @@ namespace P_FUN_PlotThatLines
                     var mousePixel = new Pixel(e.Location.X, e.Location.Y);
                     var mouseCoords = FormsPlot1.Plot.GetCoordinates(mousePixel);
 
-                    // Rechercher le point le plus proche sur la courbe
-                    var nearestIndex = FindClosestIndex(DataHandler.bitcoin.Select(b => b._date.ToOADate()).ToArray(), mouseCoords.X);
-                    if (nearestIndex >= 0 && nearestIndex < DataHandler.close_bitcoin.Count)
+                    switch(l)
                     {
-                        double price = DataHandler.close_bitcoin[nearestIndex];
-                        DateTime date = DataHandler.bitcoin[nearestIndex]._date;
+                        case "bitcoin":
+                            int nearestIndex = FindClosestIndex(DataHandler.bitcoin.Select(b => b._date.ToOADate()).ToArray(), mouseCoords.X);
+                            double price = 0.0;
+                            DateTime date = new DateTime();
+                            string name = "";
+                            if (nearestIndex >= 0 && nearestIndex < DataHandler.bitcoin.Count)
+                            {
+                                price = DataHandler.close_bitcoin[nearestIndex];
+                                date = DataHandler.bitcoin[nearestIndex]._date;
+                                name = "Bitcoin";
+                                if (DataHandler.bitcoin[0]._date == date || !DataHandler.bitcoin.Where(b => b._close == price).Any())
+                                {
+                                    return;
+                                } else
+                                {
+                                    if (DataHandler.bitcoin.Where(b => b._date == date).Any())
+                                    {
+                                        int index = DataHandler.bitcoin.IndexOf(DataHandler.bitcoin.Where(b => b._date == date).First());
+                                        price = DataHandler.close_bitcoin[index];
+                                        date = DataHandler.bitcoin[index]._date;
+                                        name = "Bitcoin";
+                                        string info = $"{name}: Date: {date.ToShortDateString()}, Prix: {price}";
+                                        tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                                    }
+                                }
+                            } else
+                            {
+                                crosshair.IsVisible = false;
+                            }
 
-                        crosshair.IsVisible = true;
-                        crosshair.Position = new Coordinates(mouseCoords.X, DataHandler.close_bitcoin[nearestIndex]);
+                            crosshair.IsVisible = true;
+                            crosshair.Position = new Coordinates(mouseCoords.X, mouseCoords.Y);
 
-                        // Mettre à jour le ToolTip avec les informations correspondantes
-                        string info = $"{l}: Date: {date.ToShortDateString()}, Prix: {price}";
-                        tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                            // Mettre à jour le ToolTip avec les informations correspondantes
+                            // string info = $"{name}: Date: {date.ToShortDateString()}, Prix: {price}";
+                            // tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                            break;
+                        case "ethereum":
+                            nearestIndex = FindClosestIndex(DataHandler.ethereum.Select(e => e._date.ToOADate()).ToArray(), mouseCoords.X);
+                            price = 0.0;
+                            date = new DateTime();
+                            name = "";
+                            if (nearestIndex >= 0 && nearestIndex < DataHandler.ethereum.Count)
+                            {
+                                price = DataHandler.close_ethereum[nearestIndex];
+                                date = DataHandler.ethereum[nearestIndex]._date;
+                                name = "Ethereum";
+                                if (DataHandler.ethereum[0]._date == date || !DataHandler.ethereum.Where(e => e._close == price).Any())
+                                {
+                                    return;
+                                }
+                                else
+                                {
+                                    if (DataHandler.ethereum.Where(e => e._date == date).Any())
+                                    {
+                                        int index = DataHandler.ethereum.IndexOf(DataHandler.ethereum.Where(e => e._date == date).First());
+                                        price = DataHandler.close_ethereum[index];
+                                        date = DataHandler.ethereum[index]._date;
+                                        name = "Ethereum";
+                                        string info = $"{name}: Date: {date.ToShortDateString()}, Prix: {price}";
+                                        tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                crosshair.IsVisible = false;
+                            }
+
+                            crosshair.IsVisible = true;
+                            crosshair.Position = new Coordinates(mouseCoords.X, mouseCoords.Y);
+
+                            // Mettre à jour le ToolTip avec les informations correspondantes
+                            // string info = $"{name}: Date: {date.ToShortDateString()}, Prix: {price}";
+                            // tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                            break;
+                        case "solana":
+                            nearestIndex = FindClosestIndex(DataHandler.solana.Select(s => s._date.ToOADate()).ToArray(), mouseCoords.X);
+                            price = 0.0;
+                            date = new DateTime();
+                            name = "";
+                            if (nearestIndex >= 0 && nearestIndex < DataHandler.solana.Count)
+                            {
+                                price = DataHandler.close_solana[nearestIndex];
+                                date = DataHandler.solana[nearestIndex]._date;
+                                name = "Solana";
+                                if (DataHandler.solana[0]._date == date || !DataHandler.solana.Where(s => s._close == price).Any())
+                                {
+                                    return;
+                                }
+                                else
+                                {
+                                    if (DataHandler.solana.Where(b => b._date == date).Any())
+                                    {
+                                        int index = DataHandler.solana.IndexOf(DataHandler.solana.Where(s => s._date == date).First());
+                                        price = DataHandler.close_solana[index];
+                                        date = DataHandler.solana[index]._date;
+                                        name = "Solana";
+                                        string info = $"{name}: Date: {date.ToShortDateString()}, Prix: {price}";
+                                        tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                crosshair.IsVisible = false;
+                            }
+
+                            crosshair.IsVisible = true;
+                            crosshair.Position = new Coordinates(mouseCoords.X, mouseCoords.Y);
+
+                            // Mettre à jour le ToolTip avec les informations correspondantes
+                            // string info = $"{name}: Date: {date.ToShortDateString()}, Prix: {price}";
+                            // tooltip.Show(info, FormsPlot1, e.Location.X + 15, e.Location.Y + 15, 1000);
+                            break;
                     }
-                    else
-                    {
-                        crosshair.IsVisible = false;
-                    }
-
-                    // Rafraîchir le graphique
+ 
                     FormsPlot1.Refresh();
                 };
             };
 
-            new List<string>() { "bitcoin", "ethereum", "solana" }.ForEach(s =>
-            {
-                crosshairInitialization(s);
-            });
+            new List<string>() { "solana", "ethereum", "bitcoin" }.ForEach(s => crosshairInitialization(s));
 
             FormsPlot1.Plot.Axes.DateTimeTicksBottom();
 
